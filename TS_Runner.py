@@ -19,6 +19,7 @@ def getWeekDay(SyneTimesheetDate):
 def TSRunner():
     inputExcel1 ="C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Syne Jan Timesheet.xlsx"
     inputExcel2 ="C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Client timesheet report daily.csv"
+    inputFormat = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Input_Format.xlsx"
     outputExcel ="C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\output.xlsx"
 
     dfSyneExcel = pd.read_excel(inputExcel1,"new sheet")
@@ -43,7 +44,7 @@ def TSRunner():
     for empId in EmpId_Name_Mapping(inputExcel1):
         l1 = []
         empIdNameProjectMapping=EmpId_Name_Project_Mapping(inputExcel1, str(empId))
-        EmpId_TaskHour = Resource_Task_TotalHour_mapping(inputExcel1, str(empId))
+        EmpId_TaskHour = Resource_Task_TotalHour_mapping(inputExcel1,inputFormat, str(empId))
         noOfTask = EmpId_TaskHour[str(empId)].keys()
         getAllDates= get_AllDates_FromSyne(inputExcel1)
         #count=0
@@ -65,7 +66,7 @@ def TSRunner():
             l2.append(task_key)
             l2.append(EmpId_TaskHour[str(empId)][task_key])
             for day in getAllDates:
-                GetDate_Hour_Mapping = Syne_Date_Hours_Mapping(inputExcel1, str(empId), day)
+                GetDate_Hour_Mapping = Syne_Date_Hours_Mapping(inputExcel1,inputFormat, str(empId), day)
                 l2.append(GetDate_Hour_Mapping[day][task_key])
             outputData.append(l2)
 
