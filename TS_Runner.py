@@ -2,6 +2,7 @@ import openpyxl
 import datetime
 import pandas as pd
 
+from Emp_Syne_ClientMapping import *
 from Syne_TestReportMapping import *
 
 
@@ -27,7 +28,7 @@ def TSRunner():
     TimesheetDetail = dfSyneExcel.columns[0]
     columncount = len(dfSyneExcel.columns)
     TotalDays = columncount-5
-    headerRow= ['','EMP ID','RESOURCE','PROJECT','TASK','TOTAL']
+    headerRow= ['','EMP ID','RESOURCE','CLIENT NAME','PROJECT','TASK','TOTAL']
     weakdayRow = ['', '', '', '', '', '']
     #create header Row
     for day in range(1,TotalDays+1):
@@ -40,7 +41,6 @@ def TSRunner():
     print(dfSyneExcel[TimesheetDetail].count())
 
     outputData = [['', TimesheetDetail], [''], [''], headerRow, weakdayRow]
-    #EmpIdNameMapping = EmpId_Name_Mapping
     for empId in EmpId_Name_Mapping(inputExcel1):
         l1 = []
         empIdNameProjectMapping=EmpId_Name_Project_Mapping(inputExcel1, str(empId))
@@ -55,9 +55,11 @@ def TSRunner():
                 l2.append('Syne')
                 l2.append(empId)
                 l2.append(empIdNameProjectMapping[str(empId)]['ResourceName'])
+                l2.append(Emp_Syne_Client_Mapping(inputFormat,empId)[empId]['CLIENT USER NAME'])
                 l2.append(empIdNameProjectMapping[str(empId)]['Project'])
                 counter = counter + 1
             else:
+                l2.append('')
                 l2.append('')
                 l2.append('')
                 l2.append('')

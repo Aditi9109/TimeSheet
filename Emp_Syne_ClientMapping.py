@@ -8,14 +8,9 @@ import pandas as pd
 from Syne_TestReportMapping import EmpId_Name_Mapping
 
 
-def Emp_Syne_Client_Mapping(inputFormat,inputExcel):
+def Emp_Syne_Client_Mapping(inputFormat,empID):
     Emp_Syne_Client_Mapping={}
-    #dfFormatSyne = pd.read_excel(inputFormat, "Name_UserId_Mapping")
-    #dfSyneExcel = pd.read_excel(inputExcel, "new sheet")
-    #empID_List = [x for x in dfFormatSyne['EMP ID'].tolist() if isinstance(x, int)]s
-    emp_name_mappingList= EmpId_Name_Mapping(inputExcel).keys()
-    for empID in emp_name_mappingList:
-        Emp_Syne_Client_Mapping[empID]=EmpID_Mapping(inputFormat,int(empID))
+    Emp_Syne_Client_Mapping[empID]=EmpID_Mapping(inputFormat,int(empID))
     return Emp_Syne_Client_Mapping
 
 
@@ -34,8 +29,8 @@ def EmpID_Mapping(inputFormat, empID):
 
 inputFormat = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Input_Format.xlsx"
 inputExcel = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Syne Jan Timesheet.xlsx"
-empDetails=Emp_Syne_Client_Mapping(inputFormat,inputExcel)
-print(empDetails)
+# empDetails=Emp_Syne_Client_Mapping(inputFormat,1234)
+# print(empDetails)
 
 
 
