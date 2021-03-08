@@ -1,11 +1,14 @@
 import openpyxl
 import datetime
 import pandas as pd
-
+import configparser
 from Emp_Syne_ClientMapping import *
 from Syne_TestReportMapping import *
 
-
+def getConfig(path):
+    config = configparser.ConfigParser()
+    config.read(path)
+    return config
 def getWeekDay(SyneTimesheetDate):
     monthToNum={'JAN':1,'FEB':2,'MAR':3,'APR':4,'MAY':5,'JUN':6,'JUL':7,'AUG':8,'SEP':9,'OCT':10,'NOV':11,'DEC':12}
     weekdayToName ={0:'Mon',1:'Tue',2:'Wed',3:'Thu',4:'Fri',5:'Sat',6:'Sun'}
@@ -17,11 +20,11 @@ def getWeekDay(SyneTimesheetDate):
     weekday = datetime.date(day=int_day, month=int_month, year=int_Year).weekday()
     return weekdayToName[weekday]
 
-def TSRunner():
-    inputExcel1 ="C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Syne Jan Timesheet.xlsx"
-    inputExcel2 ="C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Client timesheet report daily.csv"
-    inputFormat = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Input_Format.xlsx"
-    outputExcel ="C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\output.xlsx"
+def TSRunner(path):
+    inputExcel1 =getConfig(path)['Excel']['Syne']
+    inputExcel2 =getConfig(path)['Excel']['Client']
+    inputFormat = getConfig(path)['Excel']['InputFormat']
+    outputExcel =getConfig(path)['Excel']['Output']
 
     dfSyneExcel = pd.read_excel(inputExcel1,"new sheet")
     dfClientExcel = pd.read_csv(inputExcel2)
@@ -76,10 +79,11 @@ def TSRunner():
 
 
     Outputdf1 = pd.DataFrame(outputData)
-    Outputdf1.to_excel("C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\output.xlsx",sheet_name='Sheet_name_1', header=False,index=False)
+    Output = Outputdf1.style.applymap(lambda x: "background-color: lightgreen" if x == 8 else '')
+    Output.to_excel(outputExcel,sheet_name='Sheet_name_1', header=False,index=False)
 
 
-
-TSRunner()
+path="C:\\Users\\PC\\Desktop\\Syne_Timesheet\\properties.ini"
+TSRunner(path)
 
 

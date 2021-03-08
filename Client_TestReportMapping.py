@@ -51,6 +51,10 @@ def Client_Date_Hours_Mapping(inputExcel,inputFormat,empName,Date):
                 else:
                     TaskDayHour_dict[Task] = hourValue
         Client_Date_Hours_Mapping[Date] = TaskDayHour_dict
+        if 'Leave' not in Client_Date_Hours_Mapping[Date].keys():
+            Client_Date_Hours_Mapping[Date]['Leave']=0.0
+        if 'Billable' not in Client_Date_Hours_Mapping[Date].keys():
+            Client_Date_Hours_Mapping[Date]['Billable']=0.0
     return Client_Date_Hours_Mapping
 
 def ClientName_DateHours_Mapping(inputExcel,inputFormat,empName):
@@ -65,15 +69,15 @@ def ClientName_DateHours_Mapping(inputExcel,inputFormat,empName):
         ClientUserNameDetails[empName]=Day_Hrs_Mapping
     return ClientUserNameDetails
 
-inputExcel = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Client timesheet report daily.csv"
-inputFormat = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Input_Format.xlsx"
+inputExcel = "C:\\Users\\PC\\Desktop\\Syne_Timesheet\\Client timesheet report daily.csv"
+inputFormat = "C:\\Users\\PC\\Desktop\\Syne_Timesheet\\Input_Format.xlsx"
 # userNames=Client_UserName(inputExcel)
 #clientSheetDate=get_AllDatesFrom_Client(inputExcel)
-# ClientUserName_Details1=ClientName_DateHours_Mapping(inputExcel,inputFormat,'AB.CD@testing.com')
-#DailyTask_Hour = Client_Date_Hours_Mapping(inputExcel, 'EFG.HIJ@testing.com','01-04-2021')
+ClientUserName_Details1=ClientName_DateHours_Mapping(inputExcel,inputFormat,'AB.CD@testing.com')
+DailyTask_Hour = Client_Date_Hours_Mapping(inputExcel,inputFormat, 'AB.CD@testing.com','01-04-2021')
 # print(userNames)
 #print(clientSheetDate)
-# print(ClientUserName_Details1)
-#print(DailyTask_Hour)
+print(ClientUserName_Details1)
+print(DailyTask_Hour)
 
 
