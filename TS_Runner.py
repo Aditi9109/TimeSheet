@@ -2,6 +2,8 @@ import openpyxl
 import datetime
 import pandas as pd
 import configparser
+
+from Client_TestReportMapping import *
 from Emp_Syne_ClientMapping import *
 from Syne_TestReportMapping import *
 
@@ -20,11 +22,12 @@ def getWeekDay(SyneTimesheetDate):
     weekday = datetime.date(day=int_day, month=int_month, year=int_Year).weekday()
     return weekdayToName[weekday]
 
-def TSRunner(path):
+def TSRunner():
     inputExcel1 =getConfig(path)['Excel']['Syne']
     inputExcel2 =getConfig(path)['Excel']['Client']
     inputFormat = getConfig(path)['Excel']['InputFormat']
     outputExcel =getConfig(path)['Excel']['Output']
+
 
     dfSyneExcel = pd.read_excel(inputExcel1,"new sheet")
     dfClientExcel = pd.read_csv(inputExcel2)
@@ -32,7 +35,7 @@ def TSRunner(path):
     columncount = len(dfSyneExcel.columns)
     TotalDays = columncount-5
     headerRow= ['','EMP ID','RESOURCE','CLIENT NAME','PROJECT','TASK','TOTAL']
-    weakdayRow = ['', '', '', '', '', '']
+    weakdayRow = ['', '', '', '', '', '','']
     #create header Row
     for day in range(1,TotalDays+1):
         headerRow.append(str(day))
@@ -48,17 +51,19 @@ def TSRunner(path):
         l1 = []
         empIdNameProjectMapping=EmpId_Name_Project_Mapping(inputExcel1, str(empId))
         EmpId_TaskHour = Resource_Task_TotalHour_mapping(inputExcel1,inputFormat, str(empId))
-        noOfTask = EmpId_TaskHour[str(empId)].keys()
+        Emp_ClientName= Emp_Syne_Client_Mapping(inputFormat, empId)[empId]['CLIENT USER NAME']
+        noOfSyneTask = EmpId_TaskHour[str(empId)].keys()
+        noOfClientTask = get_AllClientTasks(inputExcel2,inputFormat,Emp_ClientName)
         getAllDates= get_AllDates_FromSyne(inputExcel1)
         #count=0
         counter = 0
-        for task_key in noOfTask:
+        for task_key in noOfSyneTask:
             l2 = []
             if counter == 0:
                 l2.append('Syne')
                 l2.append(empId)
                 l2.append(empIdNameProjectMapping[str(empId)]['ResourceName'])
-                l2.append(Emp_Syne_Client_Mapping(inputFormat,empId)[empId]['CLIENT USER NAME'])
+                l2.append(Emp_ClientName)
                 l2.append(empIdNameProjectMapping[str(empId)]['Project'])
                 counter = counter + 1
             else:
@@ -74,16 +79,38 @@ def TSRunner(path):
                 GetDate_Hour_Mapping = Syne_Date_Hours_Mapping(inputExcel1,inputFormat, str(empId), day)
                 l2.append(GetDate_Hour_Mapping[day][task_key])
             outputData.append(l2)
+        counter = 0
+        for task_key in noOfClientTask:
+            l3 = []
+            if counter == 0:
+                l3.append('Client')
+                l3.append(empId)
+                l3.append(empIdNameProjectMapping[str(empId)]['ResourceName'])
+                l3.append(Emp_ClientName)
+                l3.append(empIdNameProjectMapping[str(empId)]['Project'])
+                counter = counter + 1
+            else:
+                l3.append('')
+                l3.append('')
+                l3.append('')
+                l3.append('')
+                l3.append('')
 
+            l3.append(task_key)
+            l3.append(get_EmpName_TotalTaskHour(inputExcel2,inputFormat,Emp_ClientName)[task_key])
+            for day in getAllDates:
+                GetDate_Hour_Mapping = Client_EachDate_Hour_Mapping(inputExcel2, inputFormat, Emp_ClientName, day)
+                l3.append(GetDate_Hour_Mapping[day][task_key])
+            outputData.append(l3)
         outputData.append(l1)
 
 
     Outputdf1 = pd.DataFrame(outputData)
-    Output = Outputdf1.style.applymap(lambda x: "background-color: lightgreen" if x == 8 else '')
-    Output.to_excel(outputExcel,sheet_name='Sheet_name_1', header=False,index=False)
+    # Output = Outputdf1.style.applymap(lambda x: "background-color: lightgreen" if x == 8 else '')
+    Outputdf1.to_excel(outputExcel,sheet_name='Sheet_name_1', header=False,index=False)
 
 
-path="C:\\Users\\PC\\Desktop\\Syne_Timesheet\\properties.ini"
-TSRunner(path)
+path="C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\properties.ini"
+TSRunner()
 
 

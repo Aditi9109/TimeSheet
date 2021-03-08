@@ -1,6 +1,8 @@
 
 import openpyxl
 import datetime
+from datetime import datetime
+
 import pandas as pd
 def Client_UserName(inputExcel):
     client_UserName = {}
@@ -69,15 +71,64 @@ def ClientName_DateHours_Mapping(inputExcel,inputFormat,empName):
         ClientUserNameDetails[empName]=Day_Hrs_Mapping
     return ClientUserNameDetails
 
-inputExcel = "C:\\Users\\PC\\Desktop\\Syne_Timesheet\\Client timesheet report daily.csv"
-inputFormat = "C:\\Users\\PC\\Desktop\\Syne_Timesheet\\Input_Format.xlsx"
+def get_AllClientTasks(inputExcel,inputFormat,empClientName):
+    ClientTasksList = []
+    Clientname_dayHour_Map = ClientName_DateHours_Mapping(inputExcel,inputFormat,empClientName)
+    for dateList in Clientname_dayHour_Map[empClientName]:
+        for tasks in dateList.values():
+            for eachtaskName in tasks.keys():
+                if eachtaskName not in ClientTasksList:
+                    ClientTasksList.append(eachtaskName)
+    return ClientTasksList
+
+def get_EmpName_TotalTaskHour(inputExcel,inputFormat,empClientName):
+    totalBillableHour = 0
+    totalLeaveHour = 0
+    taskHour_dict={}
+    empClientName = ClientName_DateHours_Mapping(inputExcel, inputFormat, empClientName)
+    for items in empClientName.keys():
+        for eachdate_details in empClientName[items]:
+            for taskdetails in eachdate_details.values():
+                totalBillableHour = totalBillableHour + taskdetails['Billable']
+                totalLeaveHour = totalLeaveHour + taskdetails['Leave']
+                taskHour_dict['Billable']= totalBillableHour
+                taskHour_dict['Leave'] = totalLeaveHour
+    return taskHour_dict
+
+def Client_EachDate_Hour_Mapping(inputExcel,inputFormat, empClientName, date):
+    Client_date_taskHourMap = {}
+    task_hourMap ={}
+    date_obj = datetime.strptime(date, '%d-%b-%Y')
+    strdate = date_obj.strftime('%#m/%#d/%Y')
+    empClientNameDetail = ClientName_DateHours_Mapping(inputExcel, inputFormat, empClientName)[empClientName]
+
+    for items in empClientNameDetail:
+        if strdate in items.keys():
+            task_hourMap['Billable'] = items[strdate]['Billable']
+            task_hourMap['Leave'] = items[strdate]['Leave']
+            break
+    if not task_hourMap:
+        task_hourMap['Billable'] = 0
+        task_hourMap['Leave'] = 0
+
+    Client_date_taskHourMap[date]=task_hourMap
+    return Client_date_taskHourMap
+
+
+inputExcel = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Client timesheet report daily.csv"
+inputFormat = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Input_Format.xlsx"
 # userNames=Client_UserName(inputExcel)
 #clientSheetDate=get_AllDatesFrom_Client(inputExcel)
-ClientUserName_Details1=ClientName_DateHours_Mapping(inputExcel,inputFormat,'AB.CD@testing.com')
-DailyTask_Hour = Client_Date_Hours_Mapping(inputExcel,inputFormat, 'AB.CD@testing.com','01-04-2021')
+# ClientUserName_Details1=ClientName_DateHours_Mapping(inputExcel,inputFormat,'AB.CD@testing.com')
+# DailyTask_Hour = Client_Date_Hours_Mapping(inputExcel,inputFormat, 'AB.CD@testing.com','01-04-2021')
+# Emp_totalHours = get_EmpName_TotalTaskHour(inputExcel,inputFormat, 'AB.CD@testing.com')
+# date = Client_EachDate_Hour_Mapping(inputExcel,inputFormat, 'AB.CD@testing.com','01-JAN-2021')
 # print(userNames)
 #print(clientSheetDate)
-print(ClientUserName_Details1)
-print(DailyTask_Hour)
+# print(ClientUserName_Details1)
+# print(DailyTask_Hour)
+# print(Emp_totalHours)
+# print(date)
+
 
 

@@ -83,7 +83,7 @@ def Syne_Date_Hours_Mapping(inputExcel,inputFormat, EmpID, Date):
                         if isinstance(TaskDayHour_dict[Task],int) or isinstance(TaskDayHour_dict[Task],float):
                             pass
                     else:
-                        TaskDayHour_dict[Task] = hourValue
+                        TaskDayHour_dict[Task] = 0
             elif taskName in leave:
                 Task = "Leave"
                 if isinstance(hourValue, int) or isinstance(hourValue, float):
@@ -94,7 +94,7 @@ def Syne_Date_Hours_Mapping(inputExcel,inputFormat, EmpID, Date):
                         if isinstance(TaskDayHour_dict[Task],int) or isinstance(TaskDayHour_dict[Task],float):
                             pass
                     else:
-                        TaskDayHour_dict[Task] = hourValue
+                        TaskDayHour_dict[Task] = 0
 
             #hourValue = dfSyneExcel.values[i][dateColNo]
             #TaskDayHour_dict[Task] = hourValue
@@ -109,12 +109,12 @@ inputFormat = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Input_Format.xl
 # empId_NameMap = EmpId_Name_Mapping(inputExcel)
 # empIdNameProjectMapping = EmpId_Name_Project_Mapping(inputExcel,'321')
 # All_dates = get_AllDates_FromSyne(inputExcel)
-# EmpId_TaskHour = Resource_Task_TotalHour_mapping(inputExcel,inputFormat,'1234')
+EmpId_TaskHour = Resource_Task_TotalHour_mapping(inputExcel,inputFormat,'1234')
 # Task_DateHour = Syne_Date_Hours_Mapping(inputExcel,inputFormat, '321', '03-JAN-2021')
 #
 # print(empId_NameMap)
 # print(empIdNameProjectMapping)
 # print(All_dates)
-# print(EmpId_TaskHour)
+print(EmpId_TaskHour)
 # print(Task_DateHour)
 
