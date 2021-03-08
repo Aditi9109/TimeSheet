@@ -115,20 +115,5 @@ def Client_EachDate_Hour_Mapping(inputExcel,inputFormat, empClientName, date):
     return Client_date_taskHourMap
 
 
-inputExcel = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Client timesheet report daily.csv"
-inputFormat = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Input_Format.xlsx"
-# userNames=Client_UserName(inputExcel)
-#clientSheetDate=get_AllDatesFrom_Client(inputExcel)
-# ClientUserName_Details1=ClientName_DateHours_Mapping(inputExcel,inputFormat,'AB.CD@testing.com')
-# DailyTask_Hour = Client_Date_Hours_Mapping(inputExcel,inputFormat, 'AB.CD@testing.com','01-04-2021')
-# Emp_totalHours = get_EmpName_TotalTaskHour(inputExcel,inputFormat, 'AB.CD@testing.com')
-# date = Client_EachDate_Hour_Mapping(inputExcel,inputFormat, 'AB.CD@testing.com','01-JAN-2021')
-# print(userNames)
-#print(clientSheetDate)
-# print(ClientUserName_Details1)
-# print(DailyTask_Hour)
-# print(Emp_totalHours)
-# print(date)
-
 
 

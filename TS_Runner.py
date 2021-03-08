@@ -22,7 +22,7 @@ def getWeekDay(SyneTimesheetDate):
     weekday = datetime.date(day=int_day, month=int_month, year=int_Year).weekday()
     return weekdayToName[weekday]
 
-def TSRunner():
+def TSRunner(path):
     inputExcel1 =getConfig(path)['Excel']['Syne']
     inputExcel2 =getConfig(path)['Excel']['Client']
     inputFormat = getConfig(path)['Excel']['InputFormat']
@@ -111,6 +111,6 @@ def TSRunner():
 
 
 path="C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\properties.ini"
-TSRunner()
+TSRunner(path)
 
 

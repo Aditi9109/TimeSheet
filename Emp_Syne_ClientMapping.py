@@ -27,10 +27,6 @@ def EmpID_Mapping(inputFormat, empID):
         Emp_Name_Mapping[Map_Client_UserName]=Client_Name
     return Emp_Name_Mapping
 
-inputFormat = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Input_Format.xlsx"
-inputExcel = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Syne Jan Timesheet.xlsx"
-# empDetails=Emp_Syne_Client_Mapping(inputFormat,1234)
-# print(empDetails)
 
 
 

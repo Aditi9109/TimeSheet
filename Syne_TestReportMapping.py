@@ -96,25 +96,7 @@ def Syne_Date_Hours_Mapping(inputExcel,inputFormat, EmpID, Date):
                     else:
                         TaskDayHour_dict[Task] = 0
 
-            #hourValue = dfSyneExcel.values[i][dateColNo]
-            #TaskDayHour_dict[Task] = hourValue
         Syne_date_taskHourMap[Date] = TaskDayHour_dict
     return Syne_date_taskHourMap
 
-
-
-
-inputExcel = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Syne Jan Timesheet.xlsx"
-inputFormat = "C:\\Users\\aditi\\OneDrive\\Desktop\\Vishal_Syne\\Input_Format.xlsx"
-# empId_NameMap = EmpId_Name_Mapping(inputExcel)
-# empIdNameProjectMapping = EmpId_Name_Project_Mapping(inputExcel,'321')
-# All_dates = get_AllDates_FromSyne(inputExcel)
-EmpId_TaskHour = Resource_Task_TotalHour_mapping(inputExcel,inputFormat,'1234')
-# Task_DateHour = Syne_Date_Hours_Mapping(inputExcel,inputFormat, '321', '03-JAN-2021')
-#
-# print(empId_NameMap)
-# print(empIdNameProjectMapping)
-# print(All_dates)
-print(EmpId_TaskHour)
-# print(Task_DateHour)
 
